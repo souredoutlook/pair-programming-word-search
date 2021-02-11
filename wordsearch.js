@@ -1,73 +1,113 @@
+const verticalTranspose = function(letters) {
+  let verticalArray =[]
+  for (let i = 0; i < letters[0].length; i++) {
+    verticalArray.push([]);
+      for (let j = 0; j < letters.length; j++) {
+        verticalArray[i].push(letters[j][i]); 
+    }
+  }
+  return verticalArray;
+};
+
+const diagonalLRTranspose = function(letters) { //transposes from the top left corner to the bottom right corner
+  let i = 0;
+  let j = 0;
+  const diagonalLR = [];
+  do{
+    let count = 0;
+    let innerArray = [];
+    while (count <= j && count < letters[0].length){
+      innerArray.push(letters[j - count][i + count])
+      count ++;
+    }
+    j++
+    diagonalLR.push(innerArray);
+  } while (j < letters.length - 1) //when j is one less than the number of elements in letters do it one more time
+  do{
+    let count = 0;
+    let innerArray = [];
+    while (count <= j && count < letters[0].length - i){ //make sure that we are comparing the counter to the maximum width "under the line" (when you visualize it as a 2d array)
+      innerArray.push(letters[j - count][i + count])
+      count ++;
+    }
+    i++;
+    diagonalLR.push(innerArray);
+  } while (i < letters[0].length)
+  return diagonalLR;
+};
+
+
+
+const diagonalRLTranspose = function(letters) { //transposes from the top right corner to the bottom left corner employs same concepts as above
+  let x = letters[0].length-1; //8
+  let y = 0;     //0
+  const diagonalRL = [];
+  do{
+    let count = 0;
+    let innerArray = [];
+    while (count <= y && count < letters.length){
+      innerArray.push(letters[y - count][x - count])
+      count ++;
+    }
+    y++ //1
+    diagonalRL.push(innerArray);
+  } while (y < letters.length - 1)
+  do{
+    let count = 0;
+    let innerArray = [];
+    while (count <= y && count <= x){
+      innerArray.push(letters[y - count][x - count])
+      count ++;
+    }
+    x--;
+    diagonalRL.push(innerArray);
+  } while (x >= 0)
+  return diagonalRL;
+};
+
 const wordSearch = (letters, word) => { 
-    const horizontalJoin = letters.map(ls => ls.join(''));
+  const horizontalJoin = letters.map(ls => ls.join(''));
 
-    for (l of horizontalJoin) {
-        if (l.includes(word)) return true
-        if (l.split("").reverse().join("").includes(word)) return true
-    }
-
-    let verticalArray =[]
-    
-    for (let i = 0; i < letters[0].length; i++) {
-        verticalArray.push([]);
-        for (let j = 0; j < letters.length; j++) {
-            verticalArray[i].push(letters[j][i]); 
-        }
-    }
-
-    const verticalJoin = verticalArray.map(ls => ls.join(''))
-
-    for (l of verticalJoin) {
+  for (l of horizontalJoin) {
       if (l.includes(word)) return true
       if (l.split("").reverse().join("").includes(word)) return true
-    }
+  }
 
-    //diagonal arrays
-    // step 1: first array, frist character
-    // step 2: second array, frist character, first array, second character
+  const verticalJoin = verticalTranspose(letters).map(ls => ls.join(''))
 
-    // let diagonalArray =[]
-    
-    // for (let i = 0; i < letters[0].length; i++) {
-    //     // diagonalArray.push([]);
-    //     // for (let j = 0; j < letters.length; j++) {z
-    //         diagonalArray.push(letters[i][i]); 
-    
-    //     // }
-    // }
-    // console.log(diagonalArray);
+  for (l of verticalJoin) {
+    if (l.includes(word)) return true
+    if (l.split("").reverse().join("").includes(word)) return true
+  }
+   
+  const diagonalLRJoin = diagonalLRTranspose(letters).map(ls => ls.join(""))
 
-    return false;
+  for (l of diagonalLRJoin) {
+    if (l.includes(word)) return true
+    if (l.split("").reverse().join("").includes(word)) return true
+  }
+
+  const diagonalRLJoin = diagonalRLTranspose(letters).map(ls => ls.join(""))
+
+  for (l of diagonalRLJoin) {
+    if (l.includes(word)) return true
+    if (l.split("").reverse().join("").includes(word)) return true
+  }
+
+  return false;
 }
 
-wordSearch([
-  ['A', 'W', 'C', 'F', 'Q', 'U', 'A', 'L'],
-  ['S', 'E', 'I', 'N', 'F', 'E', 'L', 'D'],
-  ['Y', 'F', 'C', 'F', 'Q', 'U', 'A', 'L'],
-  ['H', 'M', 'J', 'T', 'E', 'V', 'R', 'G'],
-  ['W', 'H', 'C', 'S', 'Y', 'E', 'R', 'L'],
-  ['B', 'F', 'R', 'E', 'N', 'E', 'Y', 'B'],
-  ['U', 'B', 'T', 'W', 'A', 'P', 'A', 'I'],
-  ['O', 'D', 'C', 'A', 'K', 'U', 'A', 'S'],
-  ['E', 'Z', 'K', 'F', 'Q', 'U', 'A', 'L'],
-], 'REY');
+//TEST CODE
+// wordSearch([
+//   ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'],
+//   ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
+//   ['c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'],
+//   ['d', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'],
+//   ['e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm'],
+//   ['f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'],
+//   ['g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o'],
+//   ['h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p'],
+//   ['i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q'],
+// ], 'eca');
 
 module.exports = wordSearch
-
-// so you'll want to start by editing the code in wordsearch.js to allow the tests to pass.
-// add tests for vertical join
-// create vertical join
-
-// For this challenge, you'll be implementing a word search solver, azs a function that receives a 2D array of letters and a word. The function must:
-
-    // Check to find the word horizontzally and vertically
-    // Return true if the word is found, and return false if the word is not found
-
-// NOTE: You do not need to check to see if a word is written backwards or diagonally.
-
-// This challenge comes with some initial (buggy!) code. We suggest approaching this problem with a TDD mindset, meaning "write tests, make the tests pass, repeat!".
-
-// There are already some tests in ./test/test_wordsearch.js, and you can run the tests with npm test. You'll find that one of the tests doesn't pass yet,
-
-
-// When the present tests are successful, ask yourself, "Do the current tests cover all the possible cases?" What if the word is written vertically, not horizontally? What about the case where the word matrix is an empty array? You'll have to write tests for these cases (and any others that you think of), and you might also have to modify the wordSearch function to make those new tests pass.

@@ -20,7 +20,7 @@ describe("#wordSearch()", function() {
     assert.isFalse(result);
   });
 
-  it("should return true if the word is present", function() {
+  it("should return true if the word is present horizontally", function() {
     const result = wordSearch([
       ['A', 'W', 'C', 'F', 'Q', 'U', 'A', 'L'],
       ['S', 'E', 'I', 'N', 'F', 'E', 'L', 'D'],
@@ -32,6 +32,22 @@ describe("#wordSearch()", function() {
       ['O', 'D', 'C', 'A', 'K', 'U', 'A', 'S'],
       ['E', 'Z', 'K', 'F', 'Q', 'U', 'A', 'L'],
     ], 'SEINFELD')
+
+    assert.isTrue(result);
+  });
+
+  it("should return true if the word is present horizontally, but is backwards", function() {
+    const result = wordSearch([
+      ['A', 'W', 'C', 'F', 'Q', 'U', 'A', 'L'],
+      ['S', 'E', 'I', 'N', 'F', 'E', 'L', 'D'],
+      ['Y', 'F', 'C', 'F', 'Q', 'U', 'A', 'L'],
+      ['H', 'M', 'J', 'T', 'E', 'V', 'R', 'G'],
+      ['W', 'H', 'C', 'S', 'Y', 'E', 'R', 'L'],
+      ['B', 'F', 'R', 'E', 'N', 'E', 'Y', 'B'],
+      ['U', 'B', 'T', 'W', 'A', 'P', 'A', 'I'],
+      ['O', 'D', 'C', 'A', 'K', 'U', 'A', 'S'],
+      ['E', 'Z', 'K', 'F', 'Q', 'U', 'A', 'L'],
+    ], 'REY')
 
     assert.isTrue(result);
   });
@@ -52,6 +68,22 @@ describe("#wordSearch()", function() {
     assert.isTrue(result);
   });
 
+  it("should return true if the word is present vertically but backwards", function() {
+    const result = wordSearch([
+      ['A', 'W', 'C', 'F', 'Q', 'U', 'A', 'L'],
+      ['S', 'E', 'I', 'N', 'F', 'E', 'L', 'D'],
+      ['Y', 'F', 'C', 'F', 'Q', 'U', 'A', 'L'],
+      ['H', 'M', 'J', 'T', 'E', 'V', 'R', 'G'],
+      ['W', 'H', 'C', 'S', 'Y', 'E', 'R', 'L'],
+      ['B', 'F', 'R', 'E', 'N', 'E', 'Y', 'B'],
+      ['U', 'B', 'T', 'W', 'A', 'P', 'A', 'I'],
+      ['O', 'D', 'C', 'A', 'K', 'U', 'A', 'S'],
+      ['E', 'Z', 'K', 'F', 'Q', 'U', 'A', 'L'],
+    ], 'PEE')
+
+    assert.isTrue(result);
+  });
+
   it("should return false if the word is not present vertically", function() {
     const result = wordSearch([
       ['A', 'W', 'C', 'F', 'Q', 'U', 'A', 'L'],
@@ -63,7 +95,70 @@ describe("#wordSearch()", function() {
       ['U', 'B', 'T', 'W', 'A', 'P', 'A', 'I'],
       ['O', 'D', 'C', 'A', 'K', 'U', 'A', 'S'],
       ['E', 'Z', 'K', 'F', 'Q', 'U', 'A', 'L'],
-    ], 'TOM')
+    ], 'KPN')
+    assert.isFalse(result)
+  });
+
+    it("should return true if the word is present diagonally", function() {
+      const result = wordSearch([
+        ['A', 'W', 'C', 'F', 'Q', 'U', 'A', 'L'],
+        ['S', 'E', 'I', 'N', 'F', 'E', 'L', 'D'],
+        ['Y', 'F', 'C', 'F', 'Q', 'U', 'A', 'L'],
+        ['H', 'M', 'J', 'T', 'E', 'V', 'R', 'G'],
+        ['W', 'H', 'C', 'S', 'Y', 'E', 'R', 'L'],
+        ['B', 'F', 'R', 'E', 'N', 'E', 'Y', 'B'],
+        ['U', 'B', 'T', 'W', 'A', 'P', 'A', 'I'],
+        ['O', 'D', 'C', 'A', 'K', 'U', 'A', 'S'],
+        ['E', 'Z', 'K', 'F', 'Q', 'U', 'A', 'L'],
+      ], 'WMC')
+  
+      assert.isTrue(result);
+    });
+  
+    it("should return true if the word is present diagonally", function() {
+      const result = wordSearch([
+        ['A', 'W', 'C', 'F', 'Q', 'U', 'A', 'L'],
+        ['S', 'E', 'I', 'N', 'F', 'E', 'L', 'D'],
+        ['Y', 'F', 'C', 'F', 'Q', 'U', 'A', 'L'],
+        ['H', 'M', 'J', 'T', 'E', 'V', 'R', 'G'],
+        ['W', 'H', 'C', 'S', 'Y', 'E', 'R', 'L'],
+        ['B', 'F', 'R', 'E', 'N', 'E', 'Y', 'B'],
+        ['U', 'B', 'T', 'W', 'A', 'P', 'A', 'I'],
+        ['O', 'D', 'C', 'A', 'K', 'U', 'A', 'S'],
+        ['E', 'Z', 'K', 'F', 'Q', 'U', 'A', 'L'],
+      ], 'YPK')
+  
+      assert.isTrue(result);
+    });
+  
+    it("should return false if the word is not present diagonally", function() {
+      const result = wordSearch([
+        ['A', 'W', 'C', 'F', 'Q', 'U', 'A', 'L'],
+        ['S', 'E', 'I', 'N', 'F', 'E', 'L', 'D'],
+        ['Y', 'F', 'C', 'F', 'Q', 'U', 'A', 'L'],
+        ['H', 'M', 'J', 'T', 'E', 'V', 'R', 'G'],
+        ['W', 'H', 'C', 'S', 'Y', 'E', 'R', 'L'],
+        ['B', 'F', 'R', 'E', 'N', 'E', 'Y', 'B'],
+        ['U', 'B', 'T', 'W', 'A', 'P', 'A', 'I'],
+        ['O', 'D', 'C', 'A', 'K', 'U', 'A', 'S'],
+        ['E', 'Z', 'K', 'F', 'Q', 'U', 'A', 'L'],
+      ], 'CFK')
+      assert.isFalse(result);
+    });
+
+
+      it("should return false if the word is not present diagonally down and to the right (forward or backwards)", function() {
+        const result = wordSearch([
+          ['A', 'W', 'C', 'F', 'Q', 'U', 'A', 'L'],
+          ['S', 'E', 'I', 'N', 'F', 'E', 'L', 'D'],
+          ['Y', 'F', 'C', 'F', 'Q', 'U', 'A', 'L'],
+          ['H', 'M', 'J', 'T', 'E', 'V', 'R', 'G'],
+          ['W', 'H', 'C', 'S', 'Y', 'E', 'R', 'L'],
+          ['B', 'F', 'R', 'E', 'N', 'E', 'Y', 'B'],
+          ['U', 'B', 'T', 'W', 'A', 'P', 'A', 'I'],
+          ['O', 'D', 'C', 'A', 'K', 'U', 'A', 'S'],
+          ['E', 'Z', 'K', 'F', 'Q', 'U', 'A', 'L'],
+        ], 'BTC')
 
     assert.isFalse(result);
   });
